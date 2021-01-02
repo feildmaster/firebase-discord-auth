@@ -10,6 +10,7 @@ jobs:
     if: contains(github.ref, 'master')
     steps:
       - uses: actions/checkout@v2
+      - run: npm install
       - name: Cache service account
         id: service_account
         run: node ./scripts/cache_file.js
