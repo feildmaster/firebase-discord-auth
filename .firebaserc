@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "feildbase"
+  },
+  "targets": {
+    "feildbase": {
+      "hosting": {
+        "auth": [
+          "fmauth"
+        ]
+      }
+    }
+  }
+}

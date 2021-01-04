@@ -24,6 +24,7 @@
   },
   "hosting": {
     "public": "public",
+    "target": "auth",
     "cleanUrls": true,
     "trailingSlash": false,
     "ignore": [
