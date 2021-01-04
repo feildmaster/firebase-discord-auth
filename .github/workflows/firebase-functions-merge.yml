@@ -12,11 +12,7 @@ jobs:
       - uses: actions/checkout@v2
       - run: npm install
       - name: Cache service account
-        id: service_account
-        run: node ./scripts/cache_file.js
+        run: node ./scripts/deploy_functions.js
         env:
-          CONTENT: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_FEILDBASE }}'
-      - run: 'npx firebase-tools deploy --only functions:auth.discord --project feildbase'
-        env:
-          FIREBASE_DEPLOY_AGENT: 'github-actions'
-          GOOGLE_APPLICATION_CREDENTIALS: '${{ steps.service_account.outputs.file }}'
+          SERVICE_ACCOUNT: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_FEILDBASE }}'
+          ONLY: 'auth.discord'
