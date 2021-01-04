@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Authenticate with Discord</title>
+
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/8.2.1/firebase-app.js"></script>
+    <script defer src="/__/firebase/8.2.1/firebase-auth.js"></script>
+    <script defer src="/__/firebase/8.2.1/firebase-functions.js"></script>
+    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+
+    <script type="module">
+      if (window.firebaseEmulators && firebaseEmulators.functions) {
+        firebase.functions().useEmulator(location.hostname, firebaseEmulators.functions.port);
+      }
+    </script>
+    <script type="module" src="/auth.js?run&type=discord"></script>
+  </head>
+  <body>
+    Please wait...
+  </body>
+</html>

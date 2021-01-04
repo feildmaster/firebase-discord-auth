@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to Firebase Hosting</title>
+
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/8.2.1/firebase-app.js"></script>
+    <script defer src="/__/firebase/8.2.1/firebase-auth.js"></script>
+    <script defer src="/__/firebase/8.2.1/firebase-functions.js"></script>
+    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+
+    <script type="module">
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          document.querySelector('#userInfo').innerHTML = `ID: ${user.uid}<br>Name: ${user.displayName}`;
+        } else {
+          document.querySelector('#userInfo').textContent = '';
+        }
+      });
+
+      function loginWithGoogle() {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        if (firebase.auth().currentUser) {
+          firebase.auth().currentUser.linkWithPopup(provider).catch(console.error);
+        } else {
+          firebase.auth().signInWithPopup(provider).catch(console.error);
+        }
+      }
+
+      document.querySelector('#google').addEventListener('click', loginWithGoogle);
+    </script>
+
+    <style media="screen">
+      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
+      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
+      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; cursor: pointer; }
+      #message a:hover { background: #30a7e2 }
+      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
+    </style>
+  </head>
+  <body>
+    <div id="message">
+      <a onclick="window.open('discord.html', 'auth', 'height=800,width=400'); return false;">Login with Discord</a>
+      <br>
+      <a id="google">Login with Google</a>
+      <br>
+      <a onclick="firebase.auth().signOut().catch(console.error)">Sign Out</a>
+      <div id="userInfo"></div>
+    </div>
+  </body>
+</html>
