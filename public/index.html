@@ -11,6 +11,8 @@
     <script defer src="/__/firebase/8.2.1/firebase-functions.js"></script>
     <script defer src="/__/firebase/init.js?useEmulator=true"></script>
 
+    <script type="module" src="/token.js?listen"></script>
+
     <script type="module">
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
