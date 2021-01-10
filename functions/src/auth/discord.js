@@ -1,4 +1,5 @@
 const admin = require('firebase-admin');
+const cookieParser = require('cookie-parser');
 const crypto = require('crypto');
 const functions = require('firebase-functions');
 const needle = require('needle');
@@ -48,7 +49,13 @@ exports.token = functions.https.onCall((data, context) => {
   if (!data.state) {
     throw new functions.https.HttpsError('invalid-argument');
   }
-  // TODO: Verify state
+  // Parse cookies
+  const req = context.rawRequest;
+  cookieParser()(req, null, () => {});
+  if (!req.cookies.state || req.cookies.state !== data.state) {
+    throw new functions.https.HttpsError('permission-denied');
+  }
+
   return getDiscordData({
     code: data.code,
     redirect_uri: data.redirect,
