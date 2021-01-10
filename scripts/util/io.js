@@ -1,7 +1,8 @@
 const os = require('os');
 
 exports.getInput = (key = '') => {
-  const val = process.env[`INPUT_${key.replace(' ', '_').toUpperCase()}`] || '';
+  const fixed = key.replace(' ', '_').toUpperCase();
+  const val = process.env[`INPUT_${fixed}`] || process.env[fixed] || '';
 
   return val;
 };
