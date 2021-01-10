@@ -45,16 +45,18 @@ exports.redirect = functions.https.onRequest((req, res) => {
   res.redirect(url);
 });
 
-exports.token = functions.https.onCall((data, context) => {
-  if (!data.state) {
+exports.token = functions.https.onCall((data = {}, context) => {
+  if (!(data.state && data.code && data.redirect)) {
     throw new functions.https.HttpsError('invalid-argument');
   }
+  //* - This function is unable to get cookies
   // Parse cookies
   const req = context.rawRequest;
   cookieParser()(req, null, () => {});
   if (!req.cookies.state || req.cookies.state !== data.state) {
     throw new functions.https.HttpsError('permission-denied');
   }
+  // */
 
   return getDiscordData({
     code: data.code,
@@ -83,7 +85,7 @@ function linkToFirebase(discordInfo, uid) {
     }
     return updateUser(discordInfo, user);
   })
-    .then(() => 'OK');
+    .then(() => 'LINKED');
 }
 
 function loginToFirebase(discordInfo) {
@@ -163,8 +165,5 @@ function getUserData({
     headers: {
       'Authorization': `${token_type} ${access_token}`
     },
-  }).then(({body}) => body)
-    .catch(() => {
-      throw new functions.https.HttpsError('permission-denied');
-    });
+  }).then(({body}) => body);
 }

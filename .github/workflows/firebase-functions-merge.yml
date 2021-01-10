@@ -11,8 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: npm install
-      - name: Cache service account
-        run: node ./scripts/deploy_functions.js
+      - run: node ./scripts/deploy_functions.js
         env:
           SERVICE_ACCOUNT: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_FEILDBASE }}'
           ONLY: 'auth.discord'

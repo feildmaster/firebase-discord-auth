@@ -9,7 +9,7 @@ if (!serviceAccount) throw new Error('Missing service account');
 
 const fileName = cache_file(serviceAccount);
 
-await exec('npx firebase-tools', [
+exec('npx firebase-tools', [
   'deploy',
   '--only',
   `functions${only ? `:${only}` : ''}`,
