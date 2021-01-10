@@ -142,7 +142,7 @@ function httpsError(err) {
   if (err instanceof functions.https.HttpsError) {
     throw err;
   }
-  console.error('ERROR:', err);
+  console.error('ERROR:', err); // eslint-disable-line no-console
   throw new functions.https.HttpsError('unknown', err);
 }
 

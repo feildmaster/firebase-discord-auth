@@ -8,9 +8,6 @@ module.exports = {
   ],
   "extends": "eslint:recommended",
   "rules": {
-    // Removed rule "disallow the use of console" from recommended eslint rules
-    "no-console": "off",
-
     // Removed rule "disallow multiple spaces in regular expressions" from recommended eslint rules
     "no-regex-spaces": "off",
 
