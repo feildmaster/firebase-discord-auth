@@ -6,12 +6,6 @@ const inputs = new URL(import.meta.url).searchParams;
 const eventName = 'Auth result';
 let resolve;
 
-function checkOrigin(origin) {
-  return inputs.has('trust') ?
-    inputs.get('trust') === origin :
-    isTrusted(origin);
-}
-
 export function authEvent(
   token,
   origin = inputs.get('origin'),
@@ -36,9 +30,13 @@ export function authEvent(
   });
 }
 
-if (inputs.has('listen')) {
+if (inputs.has('listen') || inputs.has('trust')) {
+  console.debug('listening to token events');
   window.addEventListener('message', (ev) => {
-    if (!ev.data || !checkOrigin(ev.origin)) return;
+    console.debug(ev);
+    if (!ev.data || inputs.has('trust') ?
+    inputs.get('trust') !== ev.origin :
+    !isTrusted(ev.origin)) return;
     const token = ev.data.token;
     if (!token) return;
     firebase.auth()
@@ -54,6 +52,7 @@ if (inputs.has('listen')) {
           console.error(error);
           data.error = error.stack || error; // Pass error (if any)
         }
+        console.debug(data);
         ev.source.postMessage(data, ev.origin); // Give a reply
       });
   });
