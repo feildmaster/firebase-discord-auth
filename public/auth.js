@@ -17,7 +17,7 @@ export default function process(
   origin = inputs.get('origin'),
 ) {
   if (!redirect && run && type) {
-    redirect = `${location.origin}/${type}.html`;
+    redirect = `${location.origin}/${type}`;
   }
   if (!redirect && !type) {
     displayError('Malformed script');
