@@ -14,7 +14,7 @@ function displayError(error, extra = error.details || '') {
 export default function process(
   redirect = inputs.get('redirect'),
   type = inputs.get('type'),
-  origin = inputs.get('origin'),
+  origin = inputs.get('origin') || sessionStorage.getItem('origin'),
 ) {
   if (!redirect && run && type) {
     redirect = `${location.origin}/${type}`;

@@ -17,6 +17,12 @@
       }
     </script>
     <script type="module" src="/auth.js?run&type=discord"></script>
+    <script>
+      const origin = new URL(location.href).searchParams.get('origin');
+      if (origin) {
+        sessionStorage.setItem('origin', origin);
+      }
+    </script>
   </head>
   <body>
     Please wait...
