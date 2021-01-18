@@ -46,10 +46,10 @@ exports.redirect = functions.https.onRequest((req, res) => {
 });
 
 exports.token = functions.https.onCall((data = {}, context) => {
-  if (!(data.state && data.code && data.redirect)) {
+  if (!(data && data.state && data.code && data.redirect)) {
     throw new functions.https.HttpsError('invalid-argument');
   }
-  //* - This function is unable to get cookies
+  /* - This function is unable to get cookies
   // Parse cookies
   const req = context.rawRequest;
   cookieParser()(req, null, () => {});
@@ -85,6 +85,7 @@ function linkToFirebase(discordInfo, uid) {
     }
     return updateUser(discordInfo, user);
   })
+    .then(updateClaims)
     .then(() => 'LINKED');
 }
 
@@ -92,6 +93,7 @@ function loginToFirebase(discordInfo) {
   const { id } = discordInfo;
   return database.getByProvider(provider, id)
     .then(getOrCreateUser.bind(null, discordInfo))
+    .then(updateClaims)
     .then(updateUser.bind(null, discordInfo))
     .then(({ uid }) => admin.auth().createCustomToken(uid))
     .then(token => ({ token }));
@@ -127,6 +129,14 @@ function updateUser(discordInfo, user) {
     return admin.auth().updateUser(user.uid, updates)
   }
   return user;
+}
+
+function updateClaims(user) {
+  const claims = user.customClaims || {};
+  if (claims[provider]) return user;
+  claims[provider] = true;
+  return admin.auth().setCustomUserClaims(user.uid, claims)
+    .then(() => user);
 }
 
 function getAvatar({

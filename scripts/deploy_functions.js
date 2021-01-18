@@ -1,6 +1,6 @@
 const { getInput } = require('./util/io');
 const cache_file = require('./cache_file').writeTemp;
-const exec = require('@actions/exec');
+const { exec } = require('@actions/exec');
 
 const serviceAccount = getInput('SERVICE_ACCOUNT');
 const only = getInput('ONLY');
@@ -15,6 +15,7 @@ exec('npx firebase-tools', [
   `functions${only ? `:${only}` : ''}`,
 ], {
   env: {
+    ...process.env,
     FIREBASE_DEPLOY_AGENT: 'github-actions',
     GOOGLE_APPLICATION_CREDENTIALS: fileName,
   },
