@@ -19,4 +19,7 @@ exec('npx firebase-tools', [
     FIREBASE_DEPLOY_AGENT: 'github-actions',
     GOOGLE_APPLICATION_CREDENTIALS: fileName,
   },
-}).catch(console.error);
+}).catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
