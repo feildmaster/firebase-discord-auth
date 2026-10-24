@@ -1,6 +1,10 @@
-const regex = /(?:^|\.)feildmaster\.com$/;
+const domains = [
+  'feildmaster',
+];
 
 export default function isTrusted(origin = '') {
-  return origin.startsWith('http://localhost:') ||
-    regex.test(origin);
+  const { hostname } = new URL(origin);
+  if (hostname === 'localhost' || hostname === '') return true;
+  const [_, domain] = hostname.split('.').reverse();
+  return domains.includes(domain);
 }

@@ -1,14 +1,22 @@
 import { projectId } from './firebase.js'; // First, validate firebase
 import { authEvent } from './token.js';
 
-const inputs = new URL(import.meta.url).searchParams;
+const inputs = new URLSearchParams(import.meta.url.search);
 
 const run = inputs.has('run');
 
 function displayError(error, extra = error.details || '') {
   console.error(error);
   document.body.innerHTML = `Error: ${error}<br>${extra}`;
-  return Promise.resolve();
+}
+
+function host() {
+  const emulator = firebase.functions().emulatorOrigin;
+  const region = firebase.functions().region;
+  if (emulator) {
+    return `${emulator}/${projectId()}/${region}`;
+  }
+  return `https://${region}-${projectId()}.cloudfunctions.net`;
 }
 
 export default function process(
@@ -23,7 +31,7 @@ export default function process(
     displayError('Malformed script');
     return;
   }
-  const parameters = new URL(location.href).searchParams;
+  const parameters = new URLSearchParams(location.href.search);
 
   const code = parameters.get('code');
   const error = parameters.get('error');
@@ -50,15 +58,10 @@ export default function process(
             }
           }).catch(displayError);
       }
-      return displayError('Unknown State');
+      displayError('Unknown State');
     }).catch(displayError);
   } else if (type && redirect) {
-    const emulator = firebase.functions().emulatorOrigin;
-    const region = firebase.functions().region;
-    const host = emulator ?
-      `${emulator}/${projectId()}/${region}` :
-      `https://${region}-${projectId()}.cloudfunctions.net`;
-    location.href = `${host}/auth-${type}-redirect?redirect=${encodeURIComponent(redirect)}`;
+    location.href = `${host()}/auth-${type}-redirect?redirect=${encodeURIComponent(redirect)}`;
   } else {
     displayError('Malformed script');
   }
