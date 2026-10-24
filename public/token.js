@@ -2,7 +2,7 @@ import isTrusted from './trust.js';
 
 if (!window.firebase) throw new Error('firebase not loaded');
 
-const inputs = new URLSearchParams(import.meta.url.search);
+const inputs = new URL(import.meta.url).searchParams;
 const eventName = 'Auth result';
 let resolve;
 

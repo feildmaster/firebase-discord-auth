@@ -1,7 +1,7 @@
 import { projectId } from './firebase.js'; // First, validate firebase
 import { authEvent } from './token.js';
 
-const inputs = new URLSearchParams(import.meta.url.search);
+const inputs = new URL(import.meta.url).searchParams;
 
 const run = inputs.has('run');
 
@@ -31,7 +31,7 @@ export default function process(
     displayError('Malformed script');
     return;
   }
-  const parameters = new URLSearchParams(location.href.search);
+  const parameters = new URL(location.href).searchParams;
 
   const code = parameters.get('code');
   const error = parameters.get('error');
