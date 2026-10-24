@@ -7,18 +7,16 @@
     "shell": "firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions:auth.discord",
-    "logs": "firebase functions:log"
+    "logs": "firebase functions:log",
+    "test": "node --test test/*.test.js"
   },
   "engines": {
-    "node": "12"
+    "node": "22"
   },
   "main": "index.js",
   "dependencies": {
-    "cookie-parser": "^1.4.5",
-    "firebase-admin": "^9.2.0",
-    "firebase-functions": "^3.11.0",
-    "needle": "^2.5.2",
-    "simple-oauth2": "^4.2.0"
+    "firebase-admin": "^13.0.0",
+    "firebase-functions": "^6.0.0"
   },
   "devDependencies": {
     "eslint": "^5.12.0",
