@@ -63,7 +63,7 @@ function linkToFirebase(discordInfo, uid) {
     const { id } = discordInfo;
     const oAuth = await database.getByProvider(provider, id) || await database.getByUID(provider, uid);
     if (!oAuth) {
-      return registerUser(discordInfo, user);
+      return registerUser(discordInfo, user).then((registered) => updateUser(discordInfo, registered));
     }
     if (oAuth.UID !== uid
       || oAuth.providerUID !== id) {
