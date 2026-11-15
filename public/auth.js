@@ -98,6 +98,7 @@ export default function process(
       displayError('Unknown State');
     }).catch(displayError);
   } else if (type && redirect) {
+    fetch(`${host()}/auth-${type}-token`, { method: 'HEAD', mode: 'no-cors', keepalive: true }).catch(() => {});
     location.href = `${host()}/auth-${type}-redirect?redirect=${encodeURIComponent(redirect)}`;
   } else {
     displayError('Malformed script');
